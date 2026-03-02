@@ -1,0 +1,7 @@
+.clasp.json
+node_modules/
+*.log
+full_list.txt
+.DS_Store
+# Credenciales de clasp (importante no subirlas si existen localmente)
+.clasprc.json

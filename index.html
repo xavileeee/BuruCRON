@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/seven-segment');
+    
+    :root {
+      --bg-color: #121212;
+      --clock-color: #00d4ff;
+      --text-main: #ffffff;
+      --sidebar-bg: #1e1e1e;
+      --header-color: #e0e0e0;
+    }
+
+    body.light-theme {
+      --bg-color: #ffffff;
+      --clock-color: #007bff;
+      --text-main: #333333;
+      --sidebar-bg: #f4f4f4;
+      --header-color: #000080;
+    }
+
+    body { 
+      background-color: var(--bg-color); 
+      color: var(--text-main);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; display: flex; height: 100vh;
+      transition: all 0.3s ease; overflow: hidden;
+    }
+
+    .display-area { 
+      flex-grow: 1; display: flex; flex-direction: column; 
+      justify-content: center; align-items: center; position: relative;
+    }
+
+    .header-title {
+      position: absolute; top: 15px; left: 20px;
+      color: var(--header-color);
+      font-weight: 900; font-size: 1.25rem;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .header-title .accent {
+      color: var(--clock-color);
+    }
+
+    .mode-label {
+      position: absolute; top: 60px;
+      font-size: 1.8rem; font-weight: bold;
+      text-transform: uppercase; letter-spacing: 5px; opacity: 0.8;
+    }
+
+    .top-controls {
+      position: absolute; top: 20px; right: 20px;
+      display: flex; gap: 20px; align-items: center;
+      z-index: 100;
+    }
+
+    .icon-btn { font-size: 24px; cursor: pointer; user-select: none; }
+
+    .icon-btn:focus-visible,
+    button:focus-visible,
+    select:focus-visible,
+    input[type="number"]:focus-visible {
+      outline: 2px solid var(--clock-color);
+      outline-offset: 3px;
+    }
+
+    .lcd-display {
+      font-family: 'Seven Segment', monospace;
+      font-size: 17vw;
+      color: var(--clock-color);
+      text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+      line-height: 1; display: flex;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .digit-box { width: 1.1ch; display: inline-block; text-align: center; }
+
+    .sidebar { 
+      width: 280px; padding: 20px; background: var(--sidebar-bg); 
+      border-left: 1px solid #444; display: flex; flex-direction: column;
+    }
+
+    body.fullscreen .sidebar { display: none; }
+
+    .group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.85rem; }
+
+    .app-title {
+      margin-top: 0;
+      margin-bottom: 18px;
+      color: var(--clock-color);
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .app-title .lite {
+      color: var(--text-main);
+      opacity: 0.92;
+    }
+    
+    button {
+      width: 100%; padding: 12px; margin: 4px 0; border: 1px solid #444;
+      border-radius: 6px; cursor: pointer; font-weight: bold; background: #333;
+      color: #fff;
+    }
+    
+    body.light-theme button { background: white; color: #333; border: 1px solid #ccc; }
+    .btn-active { background: var(--clock-color) !important; color: white !important; border: none !important; }
+    
+    select, input[type="number"] {
+      width: 100%; padding: 10px; border-radius: 6px; background: #222; 
+      color: white; border: 1px solid #444; box-sizing: border-box;
+    }
+    body.light-theme select, body.light-theme input { background: white; color: #333; border: 1px solid #ccc; }
+
+    .grid-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 10px; }
+
+    .overtime { color: #ff0000 !important; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body id="appBody">
+
+  <div class="display-area" id="mainZone">
+    <div class="header-title">IES <span class="accent">SÁENZ DE BURUAGA</span></div>
+    <div id="mode-text" class="mode-label">Hora Actual</div>
+    
+    <div class="top-controls">
+      <span class="icon-btn" onclick="toggleFullscreen()" id="fsIcon" role="button" tabindex="0" aria-label="Activar o salir de pantalla completa" title="Pantalla Completa">⛶</span>
+      <span class="icon-btn" onclick="setTheme('light')" role="button" tabindex="0" aria-label="Activar tema claro" title="Tema claro">☀️</span>
+      <span class="icon-btn" onclick="setTheme('dark')" role="button" tabindex="0" aria-label="Activar tema oscuro" title="Tema oscuro">🌙</span>
+    </div>
+
+    <div id="main-lcd" class="lcd-display"></div>
+  </div>
+
+  <div class="sidebar" id="sidePanel">
+    <h2 class="app-title"><span class="lite">Buru</span>CRON</h2>
+    
+    <div class="group">
+      <label>Tamaño Reloj</label>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="adjustFontSize(-2)">-</button>
+        <button onclick="adjustFontSize(2)">+</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <label>Modo</label>
+      <button id="btn-clock" onclick="setMode('clock')">RELOJ</button>
+      <button id="btn-down" onclick="setMode('down')">CUENTA ATRÁS</button>
+      <button id="btn-up" onclick="setMode('up')">CRONÓMETRO</button>
+    </div>
+
+    <div id="presets-group" class="group" style="display:none;">
+      <label>Alerta Sonora</label>
+      <select id="soundOption">
+        <option value="si">Sonido Activado</option>
+        <option value="no">Silencio</option>
+      </select>
+
+      <label>Minutos Manuales</label>
+      <input type="number" id="customMin" placeholder="Escribe min..." min="1" max="600" step="1" oninput="setCustomTime()">
+      
+      <div class="grid-presets">
+        <button onclick="setTime(60)">1m</button>
+        <button onclick="setTime(120)">2m</button>
+        <button onclick="setTime(300)">5m</button>
+        <button onclick="setTime(600)">10m</button>
+        <button onclick="setTime(900)">15m</button>
+        <button onclick="setTime(1800)">30m</button>
+      </div>
+    </div>
+
+    <div id="run-controls" style="display:none;">
+      <button class="btn-active" id="runBtn" onclick="toggle()">▶ INICIAR</button>
+      <button onclick="reset()">↺ REINICIAR</button>
+    </div>
+  </div>
+
+  <script>
+    const MIN_CUSTOM_MINUTES = 1;
+    const MAX_CUSTOM_MINUTES = 600;
+    const TIMER_TICK_MS = 250;
+    const COUNTDOWN_DEFAULT_SECONDS = 600;
+
+    let mode = 'clock';
+    let secs = 0;
+    let loop = null;
+    let fontSize = 17;
+    let timerStartMs = null;
+    let startSecs = 0;
+    let beepPlayed = false;
+    let audioCtx = null;
+    let activeOscillators = [];
+
+    function clearLoop() {
+      if (loop) {
+        clearInterval(loop);
+        loop = null;
+      }
+    }
+
+    function stopBeeps() {
+      activeOscillators.forEach((oscillator) => {
+        try {
+          oscillator.stop();
+        } catch (_) {}
+        try {
+          oscillator.disconnect();
+        } catch (_) {}
+      });
+      activeOscillators = [];
+    }
+
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtor) return null;
+        audioCtx = new AudioCtor();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+    
+    function playBeep() {
+      if (document.getElementById('soundOption').value === 'no') return;
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+      stopBeeps();
+
+      const repetitions = 5;
+      const beepDuration = 0.35;
+      const pauseBetweenBeeps = 1;
+      const interval = beepDuration + pauseBetweenBeeps;
+
+      for (let i = 0; i < repetitions; i++) {
+        const startAt = ctx.currentTime + i * interval;
+        const stopAt = startAt + beepDuration;
+
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(440, startAt);
+        gainNode.gain.setValueAtTime(0.1, startAt);
+
+        oscillator.onended = () => {
+          activeOscillators = activeOscillators.filter((item) => item !== oscillator);
+          try {
+            oscillator.disconnect();
+            gainNode.disconnect();
+          } catch (_) {}
+        };
+
+        activeOscillators.push(oscillator);
+        oscillator.start(startAt);
+        oscillator.stop(stopAt);
+      }
+    }
+
+    function setTheme(t) {
+      document.body.classList.toggle('light-theme', t === 'light');
+    }
+
+    function updateFullscreenUI() {
+      const isFullscreen = !!document.fullscreenElement;
+      document.body.classList.toggle('fullscreen', isFullscreen);
+      const fsIcon = document.getElementById('fsIcon');
+      fsIcon.innerText = isFullscreen ? "❌" : "⛶";
+      fsIcon.setAttribute('aria-label', isFullscreen ? 'Salir de pantalla completa' : 'Activar pantalla completa');
+      fsIcon.setAttribute('title', isFullscreen ? 'Salir de pantalla completa' : 'Pantalla Completa');
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenUI);
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function adjustFontSize(delta) {
+      fontSize = Math.max(5, Math.min(50, fontSize + delta));
+      document.getElementById('main-lcd').style.fontSize = fontSize + 'vw';
+    }
+
+    function setMode(m) {
+      if (!['clock', 'down', 'up'].includes(m)) return;
+
+      // Activar AudioContext por interacción
+      ensureAudioContext();
+      
+      mode = m;
+      clearLoop();
+      stopBeeps();
+      timerStartMs = null;
+      startSecs = 0;
+      beepPlayed = false;
+      document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('btn-active'));
+      document.getElementById('btn-' + m).classList.add('btn-active');
+      document.getElementById('presets-group').style.display = (m === 'down' ? 'block' : 'none');
+      document.getElementById('run-controls').style.display = (m === 'clock' ? 'none' : 'block');
+      document.getElementById('mode-text').innerText = (m === 'clock' ? 'Hora Actual' : (m === 'down' ? 'Cuenta Atrás' : 'Cronómetro'));
+      reset();
+      if(m === 'clock') startClock();
+    }
+
+    function renderTime(str) {
+      const container = document.getElementById('main-lcd');
+      container.innerHTML = str.split('').map(char => 
+        `<span class="${char === ':' ? '' : 'digit-box'}">${char}</span>`
+      ).join('');
+    }
+
+    function startClock() {
+      clearLoop();
+      const tick = () => { renderTime(new Date().toLocaleTimeString('es-ES')); };
+      tick(); loop = setInterval(tick, 1000);
+    }
+
+    function setCustomTime() {
+      const input = document.getElementById('customMin');
+      const raw = input.value;
+      if (raw === '') return;
+
+      const parsed = Number(raw);
+      if (!Number.isFinite(parsed)) return;
+
+      const safeMinutes = Math.min(MAX_CUSTOM_MINUTES, Math.max(MIN_CUSTOM_MINUTES, Math.round(parsed)));
+      if (safeMinutes !== parsed) input.value = safeMinutes;
+      setTime(safeMinutes * 60);
+    }
+
+    function setTime(s) {
+      const parsed = Number(s);
+      if (!Number.isFinite(parsed)) return;
+
+      secs = Math.max(0, Math.floor(parsed));
+      if (mode === 'down' && secs > 0) beepPlayed = false;
+      update();
+    }
+
+    function getElapsedSeconds() {
+      if (!timerStartMs) return 0;
+      return Math.floor((Date.now() - timerStartMs) / 1000);
+    }
+
+    function recalculateSecs() {
+      const elapsed = getElapsedSeconds();
+      if (mode === 'down') {
+        secs = startSecs - elapsed;
+      } else if (mode === 'up') {
+        secs = startSecs + elapsed;
+      }
+    }
+
+    function setRunButtonLabel(state) {
+      const runBtn = document.getElementById('runBtn');
+      if (!runBtn) return;
+
+      if (state === 'pause') runBtn.innerText = "⏸ PAUSAR";
+      if (state === 'resume') runBtn.innerText = "▶ REANUDAR";
+      if (state === 'start') runBtn.innerText = "▶ INICIAR";
+    }
+
+    function update() {
+      const a = Math.abs(secs);
+      const h = Math.floor(a / 3600);
+      const m = Math.floor((a % 3600) / 60).toString().padStart(2, '0');
+      const s = (a % 60).toString().padStart(2, '0');
+      renderTime((secs < 0 ? '-' : '') + (h > 0 ? h + ":" : "") + m + ":" + s);
+      document.getElementById('main-lcd').classList.toggle('overtime', mode === 'down' && secs <= 0);
+    }
+
+    function toggle() {
+      if (mode === 'clock') {
+        if (loop) {
+          clearLoop();
+        } else {
+          startClock();
+        }
+        return;
+      }
+
+      ensureAudioContext();
+
+      if(loop) {
+        recalculateSecs();
+        clearLoop();
+        timerStartMs = null;
+        setRunButtonLabel('resume');
+      } else {
+        setRunButtonLabel('pause');
+        startSecs = secs;
+        timerStartMs = Date.now();
+        if (mode === 'down' && secs > 0) beepPlayed = false;
+        loop = setInterval(() => {
+          const previousSecs = secs;
+          recalculateSecs();
+          if (mode === 'down' && !beepPlayed && previousSecs > 0 && secs <= 0) {
+            playBeep();
+            beepPlayed = true;
+          }
+          update();
+        }, TIMER_TICK_MS);
+      }
+    }
+
+    function reset() {
+      clearLoop();
+      stopBeeps();
+      secs = (mode === 'down' ? COUNTDOWN_DEFAULT_SECONDS : 0);
+      timerStartMs = null;
+      startSecs = secs;
+      beepPlayed = false;
+      setRunButtonLabel('start');
+      if(mode !== 'clock') update();
+    }
+
+    document.querySelectorAll('.icon-btn').forEach(icon => {
+      icon.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.code === 'Space') {
+          event.preventDefault();
+          event.stopPropagation();
+          icon.click();
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Space') {
+        if (event.repeat) return;
+        event.preventDefault();
+        toggle();
+      }
+
+      if (event.key === 'Escape' && document.fullscreenElement && document.exitFullscreen) {
+        event.preventDefault();
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    setMode('clock');
+  </script>
+</body>
+</html>
