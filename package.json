@@ -1,0 +1,14 @@
+{
+    "name": "burucron",
+    "version": "1.0.0",
+    "description": "Sistema de gestión para el IES Sáenz de Buruaga",
+    "scripts": {
+        "login": "clasp login",
+        "push": "clasp push",
+        "pull": "clasp pull",
+        "watch": "clasp push --watch"
+    },
+    "devDependencies": {
+        "@google/clasp": "^2.4.2"
+    }
+}
