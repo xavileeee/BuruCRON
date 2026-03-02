@@ -35,7 +35,8 @@ Si solo quieres probar la interfaz o usar la herramienta sin instalar nada:
     ```bash
     npm start
     ```
-    Esto abrirá un servidor local en la nube para que puedas ver el `index.html` interactuando con él desde tu navegador.
+    > [!IMPORTANT]
+    > Al ejecutar `npm start` en Codespaces, asegúrate de ir a la pestaña **"Ports"** y cambiar el **"Port Visibility"** a **"Public"** para que la previsualización cargue correctamente todos los recursos.
 
 ### 2. Desarrollo con Google Apps Script (CLASP)
 Utilizamos [clasp](https://github.com/google/clasp) **exclusivamente para subir el proyecto a Google Apps Script**. Esto es necesario si quieres desplegarlo como una Web App oficial vinculada a una hoja de cálculo o a los servicios de Google.
