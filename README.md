@@ -17,6 +17,13 @@
     -   **Tamaño Ajustable**: Control dinámico del tamaño de los dígitos para mejorar la legibilidad.
 -   **Accesibilidad**: Atajos de teclado (Barra espaciadora para iniciar/pausar).
 
+
+<img width="1844" height="700" alt="image" src="https://github.com/user-attachments/assets/393bad06-ef49-4d6e-a3b9-10012775c852" />
+<img width="1857" height="799" alt="image" src="https://github.com/user-attachments/assets/46b02c9d-aa91-4722-b291-98871fe1766b" />
+<img width="1851" height="708" alt="image" src="https://github.com/user-attachments/assets/d9e33a95-4033-452d-bf3e-f34111af8595" />
+
+
+
 ## 🚀 Tecnologías
 
 Este proyecto está desarrollado como una **Google Apps Script Web App** utilizando:
