@@ -6,7 +6,8 @@
         "login": "clasp login",
         "push": "clasp push",
         "pull": "clasp pull",
-        "watch": "clasp push --watch"
+        "watch": "clasp push --watch",
+        "start": "npx serve ."
     },
     "devDependencies": {
         "@google/clasp": "^2.4.2"

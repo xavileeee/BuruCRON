@@ -24,24 +24,31 @@ Este proyecto está desarrollado como una **Google Apps Script Web App** utiliza
 -   **JavaScript (Vanilla)**: Lógica del cronómetro y gestión de AudioContext para los pitidos.
 -   **Fuentes Especializadas**: Uso de la fuente *Seven Segment* para una estética retro-digital.
 
-## 🛠️ Desarrollo Local con CLASP
+## 🚀 Cómo probar la herramienta
 
-Si deseas modificar o desplegar este proyecto, te recomendamos usar [clasp](https://github.com/google/clasp).
+Tienes dos formas de ejecutar este proyecto:
 
-### 1. Requisitos previos
+### 1. Ejecución rápida (Web / Codespaces)
+Si solo quieres probar la interfaz o usar la herramienta sin instalar nada:
+-   **Localmente**: Simplemente abre el archivo `index.html` en cualquier navegador moderno.
+-   **GitHub Codespaces**: Haz clic en el botón verde **"Code"** > **"Codespaces"** > **"Create codespace"**. Una vez abierto, ejecuta en la terminal:
+    ```bash
+    npm start
+    ```
+    Esto abrirá un servidor local en la nube para que puedas ver el `index.html` interactuando con él desde tu navegador.
+
+### 2. Desarrollo con Google Apps Script (CLASP)
+Utilizamos [clasp](https://github.com/google/clasp) **exclusivamente para subir el proyecto a Google Apps Script**. Esto es necesario si quieres desplegarlo como una Web App oficial vinculada a una hoja de cálculo o a los servicios de Google.
+
+**Requisitos previos:**
 -   Node.js instalado.
--   Instalar clasp de forma global: `npm install -g @google/clasp`
+-   Instalar dependencias: `npm install`
 -   Tener habilitada la API de Google Apps Script en tu cuenta de Google.
 
-### 2. Clonar el proyecto
-Si ya tienes el ID del script, puedes descargarlo usando:
-```bash
-clasp clone "TU_SCRIPT_ID"
-```
-
-### 3. Sincronización
--   **Bajar cambios**: `clasp pull`
--   **Subir cambios**: `clasp push`
+**Sincronización:**
+-   **Login**: `npm run login`
+-   **Subir cambios**: `npm run push`
+-   **Bajar cambios**: `npm run pull`
 
 ## 📖 Instrucciones de Uso
 
