@@ -1,0 +1,17 @@
+{
+    "name": "BuruCRON Development Environment",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "postCreateCommand": "npm install -g @google/clasp",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "google.clasp",
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    },
+    "remoteUser": "node"
+}
