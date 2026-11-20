@@ -1,69 +1,87 @@
-# BuruCRON 🕒
+# BuruCron — Reloj Digital, Cronómetro y Temporizador para Aulas y Exámenes
 
-**BuruCRON** es una herramienta web de cronometraje diseñada específicamente para el entorno educativo del **IES Sáenz de Buruaga**. Proporciona una interfaz visual clara y funcional para gestionar el tiempo en el aula, con modos de reloj, cuenta atrás y cronómetro.
-
-## ✨ Características Principales
-
--   **Modo Reloj**: Visualización de la hora actual en formato digital (24h).
--   **Cuenta Atrás (Temporizador)**:
-    -   Ajustes rápidos de tiempo (1m, 2m, 5m, 10m, 15m, 30m).
-    -   Configuración manual de minutos (hasta 600 minutos).
-    -   Alerta sonora automática al finalizar el tiempo.
--   **Cronómetro**: Seguimiento preciso del tiempo transcurrido.
--   **Interfaz Moderna y Adaptable**:
-    -   Diseño inspirado en pantallas LCD de siete segmentos.
-    -   **Temas**: Soporte para Modo Oscuro (por defecto) y Modo Claro.
-    -   **Pantalla Completa**: Ideal para proyecciones en el aula.
-    -   **Tamaño Ajustable**: Control dinámico del tamaño de los dígitos para mejorar la legibilidad.
--   **Accesibilidad**: Atajos de teclado (Barra espaciadora para iniciar/pausar).
-
-
-<img width="1844" height="700" alt="image" src="https://github.com/user-attachments/assets/393bad06-ef49-4d6e-a3b9-10012775c852" />
-<img width="1857" height="799" alt="image" src="https://github.com/user-attachments/assets/46b02c9d-aa91-4722-b291-98871fe1766b" />
-<img width="1851" height="708" alt="image" src="https://github.com/user-attachments/assets/d9e33a95-4033-452d-bf3e-f34111af8595" />
-
-
-
-## 🚀 Tecnologías
-
-Este proyecto está desarrollado como una **Google Apps Script Web App** utilizando:
--   **HTML5 / CSS3**: Estructura y diseño premium con variables CSS para temas.
--   **JavaScript (Vanilla)**: Lógica del cronómetro y gestión de AudioContext para los pitidos.
--   **Fuentes Especializadas**: Uso de la fuente *Seven Segment* para una estética retro-digital.
-
-## 🚀 Cómo probar la herramienta
-
-Tienes dos formas de ejecutar este proyecto:
-
-### 1. Ejecución rápida (Web / Codespaces)
-Si solo quieres probar la interfaz o usar la herramienta sin instalar nada:
--   **Localmente**: Simplemente abre el archivo `index.html` en cualquier navegador moderno.
--   **GitHub Codespaces**: Haz clic en el botón verde **"Code"** > **"Codespaces"** > **"Create codespace"**. Una vez abierto, ejecuta en la terminal:
-    ```bash
-    npm start
-    ```
-    > [!IMPORTANT]
-    > Al ejecutar `npm start` en Codespaces, asegúrate de ir a la pestaña **"Ports"** y cambiar el **"Port Visibility"** a **"Public"** para que la previsualización cargue correctamente todos los recursos.
-
-### 2. Desarrollo con Google Apps Script (CLASP)
-Utilizamos [clasp](https://github.com/google/clasp) **exclusivamente para subir el proyecto a Google Apps Script**. Esto es necesario si quieres desplegarlo como una Web App oficial vinculada a una hoja de cálculo o a los servicios de Google.
-
-**Requisitos previos:**
--   Node.js instalado.
--   Instalar dependencias: `npm install`
--   Tener habilitada la API de Google Apps Script en tu cuenta de Google.
-
-**Sincronización:**
--   **Login**: `npm run login`
--   **Subir cambios**: `npm run push`
--   **Bajar cambios**: `npm run pull`
-
-## 📖 Instrucciones de Uso
-
-1.  **Cambiar de Modo**: Utiliza los botones de la barra lateral (**RELOJ**, **CUENTA ATRÁS**, **CRONÓMETRO**).
-2.  **Iniciar/Pausar**: Haz clic en el botón principal de la barra lateral o presiona la **barra espaciadora**.
-3.  **Configurar Cuenta Atrás**: Introduce el tiempo en "Minutos Manuales" o usa los botones rápidos. Asegúrate de tener la "Alerta Sonora" activada si deseas escuchar el aviso final.
-4.  **Ajustar Pantalla**: Usa los botones **+** y **-** para cambiar el tamaño del reloj. Haz clic en el icono de pantalla completa (⛶) para una visualización sin distracciones.
+**IES Sáenz de Buruaga** · Aplicación web diseñada específicamente para su proyección en paneles digitales interactivos (PDI) y pantallas de aula durante pruebas escritas, exposiciones orales o control de tiempo lectivo.
 
 ---
-*Desarrollado para el IES Sáenz de Buruaga.*
+
+## 📋 Resumen del Proyecto
+
+| Parámetro | Detalle |
+| :--- | :--- |
+| **Repositorio GitHub** | [https://github.com/xavileeee/BuruCron](https://github.com/xavileeee/BuruCron) |
+| **Acceso desde Homarr** | Módulo directo en BuruPanel (`http://panel.saenzdeburuaga`) |
+| **Manual de Usuario en BuruWikiTIC** | [Libro BuruPanel > Capítulo BuruCRON](http://buruwiki.saenzdeburuaga/books/burupanel/chapter/burucron) |
+| **Script ID** | `1uYdz8oA7T4pz0JNs0ZZAyGJYBR97OFYHrsSdKSWtWRpGMp0xlav3A6aE` |
+| **Acceso Online (GAS)** | [Web App Desplegada](https://script.google.com/a/macros/iessaenzdeburuaga.es/s/AKfycbwXJP1s8jqorxgUbIU3LN4fsPofudDeclaN74BZRDZ5qUuHp-sS1T9-q05x9aB7auhNLw/exec) · [Editor Apps Script](https://script.google.com/d/1uYdz8oA7T4pz0JNs0ZZAyGJYBR97OFYHrsSdKSWtWRpGMp0xlav3A6aE/edit) |
+| **Tipografía** | Fuente digital *Seven-Segment* retroiluminada de gran visibilidad |
+| **Generación de Sonido** | Sintetizador de audio nativo mediante Web Audio API (`AudioContext`) |
+
+---
+
+## 🎨 Identidad Visual y Unicidad de Iconos
+
+Siguiendo el principio de **Unicidad de Iconos** del IES Sáenz de Buruaga:
+
+- **Icono Oficial:** Isotipo Cronicle / Cronómetro digital estilizado (Walkxcode).
+- **Ruta Local:** [burucron_logo.png](file:///d:/PROYECTOS/IES%20SAENZ%20DE%20BURUAGA/PROYECTOS/BuruCron/burucron_logo.png) · [burucron_logo.svg](file:///d:/PROYECTOS/IES%20SAENZ%20DE%20BURUAGA/PROYECTOS/BuruCron/burucron_logo.svg)
+- **Repositorio Central de Identidad:** [burucron_logo_oficial.png](file:///d:/PROYECTOS/IES%20SAENZ%20DE%20BURUAGA/Identidad_Corporativa/logos/burucron_logo_oficial.png)
+
+---
+
+## ⏱️ Modos de Funcionamiento
+
+1. **Reloj Digital en Vivo (`Clock`):**
+   - Muestra la hora oficial sincronizada en formato `HH:MM:SS`.
+   - Ideal como salvapantallas o fondo permanente en el aula durante la jornada.
+
+2. **Temporizador de Cuenta Atrás (`Timer`):**
+   - Configuración manual de horas, minutos y segundos o presets rápidos (15m, 30m, 50m examen).
+   - Aviso visual cuando restan los últimos minutos (cambio cromático de advertencia).
+   - Señal acústica de fin de tiempo generada directamente por el navegador con pitidos progresivos vía Web Audio API.
+
+3. **Cronómetro Progresivo (`Stopwatch`):**
+   - Medición precisa de tiempos de intervención en debates, presentaciones orales o ejercicios prácticos.
+   - Controles de pausa, reanudación y reinicio.
+
+---
+
+## 🎨 Características de Visualización
+
+- **Modo Pantalla Completa:** Botón directo para maximizar la ventana y ocultar distracciones del navegador.
+- **Selector de Temas:**
+  - **Dark Theme (por defecto):** Fondo negro carbón (`#121212`) con dígitos en azul cian neón (`#00d4ff`) de mínimo consumo y máxima visibilidad desde el fondo de la clase.
+  - **Light Theme:** Fondo blanco con dígitos azules para proyectores con baja luminosidad.
+- **Control de Escala:** Botones `+` / `-` para adaptar el tamaño de los números a la resolución de cualquier panel o proyector.
+
+---
+
+## 📂 Archivos del Proyecto
+
+```text
+PROYECTOS/BuruCron/
+├── .clasp.json                # Configuración de Clasp y Script ID oficial
+├── appsscript.json            # Manifiesto de la WebApp
+├── burucron_logo.png          # Icono oficial PNG
+├── burucron_logo.svg          # Icono oficial vectorial SVG
+├── capturas/                  # Capturas de la interfaz real del aula
+│   ├── captura_burucron_inicio.png
+│   └── captura_burucron_ui_real.png
+├── Código.js                  # Servidor Apps Script con doGet()
+├── index.html                 # Interfaz visual, estilos 7 segmentos y lógica de reloj/temporizador
+└── README.md                  # Documentación técnica del proyecto
+```
+
+---
+
+## 💻 Gestión y Despliegue con Clasp
+
+```powershell
+# Acceder a la carpeta
+cd "D:\PROYECTOS\IES SAENZ DE BURUAGA\PROYECTOS\BuruCron"
+
+# Sincronizar desde Google Apps Script
+clasp pull
+
+# Desplegar cambios locales a la nube
+clasp push
+```
