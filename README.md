@@ -12,7 +12,7 @@
 | **Acceso desde Homarr** | Módulo directo en BuruPanel (`http://panel.saenzdeburuaga`) |
 | **Manual de Usuario en BuruWikiTIC** | [Libro BuruPanel > Capítulo BuruCRON](http://buruwiki.saenzdeburuaga/books/burupanel/chapter/burucron) |
 | **Script ID** | `1uYdz8oA7T4pz0JNs0ZZAyGJYBR97OFYHrsSdKSWtWRpGMp0xlav3A6aE` |
-| **Acceso Online (GAS)** | [Web App Desplegada](https://script.google.com/a/macros/iessaenzdeburuaga.es/s/AKfycbwXJP1s8jqorxgUbIU3LN4fsPofudDeclaN74BZRDZ5qUuHp-sS1T9-q05x9aB7auhNLw/exec) · [Editor Apps Script](https://script.google.com/d/1uYdz8oA7T4pz0JNs0ZZAyGJYBR97OFYHrsSdKSWtWRpGMp0xlav3A6aE/edit) |
+| **Acceso Online (GAS)** | [Web App Desplegada](https://script.google.com/a/macros/iessaenzdeburuaga.es/s/AKfycbyPfOF3PbGWSnMz0A2qvv462O27CzhjxcCkwS2zJ59-LbfHmZDdn9b8h8xW4ajfEmGC2A/exec) · [Editor Apps Script](https://script.google.com/d/1uYdz8oA7T4pz0JNs0ZZAyGJYBR97OFYHrsSdKSWtWRpGMp0xlav3A6aE/edit) |
 | **Tipografía** | Fuente digital *Seven-Segment* retroiluminada de gran visibilidad |
 | **Generación de Sonido** | Sintetizador de audio nativo mediante Web Audio API (`AudioContext`) |
 
